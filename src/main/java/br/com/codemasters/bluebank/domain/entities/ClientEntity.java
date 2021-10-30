@@ -25,5 +25,7 @@ public class ClientEntity {
 
     private String telephoneNumber;
 
+    private String observation;
+
 
 }
