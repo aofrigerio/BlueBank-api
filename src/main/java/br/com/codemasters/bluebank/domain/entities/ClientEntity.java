@@ -7,23 +7,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientEntity {
-
-    @Id
-    private Long id;
+public class ClientEntity extends BaseEntityModel {
 
     @Column(name = "name")
     private String name;
 
     private String telephoneNumber;
-
 
 }
