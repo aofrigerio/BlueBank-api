@@ -21,17 +21,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgencyEntity {
+public class AgencyEntity extends BaseEntityModel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="code", nullable= false)
 	private long code;
 	
 	@Column(name="name", nullable = false)
 	private String name;
-	
-	
-	
-	@OneToMany
-	private List<AccountEntity> accounts;
+
 }

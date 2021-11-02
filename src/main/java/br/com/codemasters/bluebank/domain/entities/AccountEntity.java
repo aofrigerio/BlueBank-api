@@ -19,13 +19,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountEntity {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	
+public class AccountEntity extends BaseEntityModel {
+
 	@Column(name="number", nullable = false)
 	private String number;
 	
