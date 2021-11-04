@@ -18,6 +18,22 @@ public class ClientEntity extends BaseEntityModel {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "adress")
+    private String adress;
+
+    @Column(name = "cpf")
+    private String cpf;
+
+    @Column(name = "rg")
+    private String rg;
+
+    @Column(name = "sexo")
+    private String sexo;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "telephoneNumber")
     private String telephoneNumber;
 
 }
