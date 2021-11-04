@@ -28,7 +28,7 @@ public class ClientEntity extends BaseEntityModel {
     @Column(name = "rg", nullable = false)
     private String rg;
 
-    @Column(name = "sexo", nullable = false)
+    @Column(name = "sex", nullable = false)
     private String sex;
 
     @Column(name = "email", nullable = false)

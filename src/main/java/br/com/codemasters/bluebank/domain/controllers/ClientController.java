@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("clients")
-public class ClientService {
+@RequestMapping("/clients")
+public class ClientController {
     private final ClientRepository clientRepository;
     @Autowired
-    public ClientService(ClientRepository clientRepository){
+    public ClientController(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
     }
 
