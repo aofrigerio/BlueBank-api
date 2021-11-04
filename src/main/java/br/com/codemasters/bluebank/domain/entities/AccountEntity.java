@@ -25,9 +25,17 @@ public class AccountEntity extends BaseEntityModel {
 	private String number;
 	
 	@Column(name="balance", nullable = false)
-	private double balance;
+	private Double balance;
+	
+	@Column(name="limite", nullable = false)
+	private Double limit;
 	
 	@ManyToOne
 	private AgencyEntity agency;
+	
+	@ManyToOne
+	private ClientEntity client;
+	
+	
 	
 }
