@@ -7,10 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
     private final ClientRepository clientRepository;
+
     @Autowired
     public ClientController(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
@@ -18,30 +21,28 @@ public class ClientController {
 
     @GetMapping
     public ResponseEntity<?> getClients(){
-        return new ResponseEntity<>(clientRepository.findAll(), HttpStatus.valueOf(200));
+        return ResponseEntity.ok(clientRepository.findAll());
     }
 
     @GetMapping(path = "{/id}")
     public ResponseEntity<?> getClientById(@PathVariable("id") Long id){
-       if(clientRepository.existsById(id))
-         return new ResponseEntity<>(clientRepository.findById(id), HttpStatus.valueOf(200));
-       return new ResponseEntity<>(HttpStatus.valueOf(404));
+        return ResponseEntity.ok(clientRepository.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<?> saveClient(@RequestBody ClientEntity clientEntity){
-        return new ResponseEntity<>(clientRepository.save(clientEntity), HttpStatus.valueOf(200));
+        return ResponseEntity.ok(clientRepository.save(clientEntity));
     }
 
     @DeleteMapping(path ="{/id}")
     public ResponseEntity<?> deleteClient(@PathVariable("id") Long id){
         clientRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping
     public ResponseEntity<?> updateClient(@RequestBody ClientEntity clientEntity){
-        return new ResponseEntity<>(clientRepository.save(clientEntity), HttpStatus.valueOf(200));
+        return ResponseEntity.ok(clientRepository.save(clientEntity));
     }
 
 }

@@ -37,7 +37,4 @@ public class ClientEntity extends BaseEntityModel {
     @Column(name = "telephoneNumber", nullable = false)
     private String telephoneNumber;
 
-    @ManyToOne
-    private AccountEntity account;
-
 }
