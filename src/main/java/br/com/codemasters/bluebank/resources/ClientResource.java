@@ -1,9 +1,7 @@
-package br.com.codemasters.bluebank.domain.controllers;
+package br.com.codemasters.bluebank.resources;
 
 import br.com.codemasters.bluebank.domain.dtos.ClientDTO;
-import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.services.ClientService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping({"/clients"})
-public class ClientController {
+public class ClientResource {
 
     @Autowired
     private ClientService clientService;
