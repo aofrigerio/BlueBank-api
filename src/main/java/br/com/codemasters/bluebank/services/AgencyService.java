@@ -17,24 +17,19 @@ public class AgencyService {
 	@Autowired
 	private AgencyRepository repository;
 	
-	
 	public List<AgencyDto> findAll(){
 		return repository.findAll().stream().map(this::AgencyEntityToDto).collect(Collectors.toList());
 	}
-	
-	
 	
 	public AgencyEntity  create(AgencyEntity agency){
 		agency.setId(null);
 		return repository.save(agency);
 	}
 	
-	
 	public AgencyDto findById ( Long agencyId) {
 		AgencyEntity agency = repository.findById(agencyId).orElseThrow(null);
 		return AgencyEntityToDto(agency);
 	}
-	
 	
 	public AgencyEntity update(Long id, AgencyEntity obj) {
 		AgencyEntity newObj = repository.findById(id).orElseThrow(null);
@@ -43,12 +38,10 @@ public class AgencyService {
 		return repository.save(newObj);
 	}
 	
-	
 	public void delete(Long id) {
 		findById(id);
 		repository.deleteById(id);
 	}
-	
 	
 	private AgencyDto AgencyEntityToDto (AgencyEntity agency) {
 		AgencyDto agencyDto = new AgencyDto();
@@ -56,9 +49,5 @@ public class AgencyService {
 		agencyDto.setCode(agency.getCode());
 		agencyDto.setName(agency.getName());
 		return agencyDto;
-	}
-
-
-
-	
+	}	
 }

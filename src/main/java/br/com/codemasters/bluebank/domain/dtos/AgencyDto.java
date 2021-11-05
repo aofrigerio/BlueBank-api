@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AgencyDto {
 
-	private long id;
-	private long code;
+	private Long id;
+	private Long code;
 	private String name;
-	
-	
 }

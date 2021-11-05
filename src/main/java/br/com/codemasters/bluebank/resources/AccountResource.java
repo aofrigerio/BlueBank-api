@@ -21,9 +21,6 @@ import br.com.codemasters.bluebank.domain.dtos.AccountDto;
 import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.services.AccountService;
 
-
-
-
 @RestController()
 @RequestMapping("/account")
 public class AccountResource {
@@ -57,7 +54,6 @@ public class AccountResource {
 	@DeleteMapping(value ="/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Long id){
 		service.delete(id);
-		return ResponseEntity.ok(null);
+		return ResponseEntity.noContent().build();
 	}
-
 }

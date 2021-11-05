@@ -11,5 +11,4 @@ import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 @Repository
 public interface AgencyRepository extends JpaRepository <AgencyEntity, Long>{
 
-
 }

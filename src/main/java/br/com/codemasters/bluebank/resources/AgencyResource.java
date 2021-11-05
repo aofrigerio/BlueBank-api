@@ -21,8 +21,6 @@ import br.com.codemasters.bluebank.domain.dtos.AgencyDto;
 import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.services.AgencyService;
 
-
-
 @RestController()
 @RequestMapping("/agency")
 public class AgencyResource {
@@ -56,6 +54,6 @@ public class AgencyResource {
 	@DeleteMapping(value ="/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Long id){
 		service.delete(id);
-		return ResponseEntity.ok(null);
+		return ResponseEntity.noContent().build();
 	}
 }

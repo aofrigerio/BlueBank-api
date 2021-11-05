@@ -9,8 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Entity
 @Data
 @Builder
@@ -18,9 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AgencyEntity extends BaseEntityModel {
 
-
 	@Column(name="code", nullable= false)
-	private long code;
+	private Long code;
 	
 	@Column(name="name", nullable = false)
 	private String name;

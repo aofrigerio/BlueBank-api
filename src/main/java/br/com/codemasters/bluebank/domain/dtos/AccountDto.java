@@ -1,8 +1,6 @@
 package br.com.codemasters.bluebank.domain.dtos;
 
 
-
-import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDto {
-	private long id;
-	private long number;
+	private Long id;
+	private Long number;
 	private double balance;
-	private AgencyEntity agency;
+	private Long agency;
+
 }
