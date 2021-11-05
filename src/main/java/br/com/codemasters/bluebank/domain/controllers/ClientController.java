@@ -4,40 +4,43 @@ import br.com.codemasters.bluebank.domain.dtos.ClientDTO;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.services.ClientService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@AllArgsConstructor
 @RequestMapping({"/clients"})
 public class ClientController {
 
-    private final ClientService clientService;
+    @Autowired
+    private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity getClients(){
-        return clientService.getClients();
+    public ResponseEntity<List<ClientDTO>> getClients(){
+        return ResponseEntity.ok().body(clientService.getClients());
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity getClientById(@PathVariable("id") Long id){
-        return clientService.getClientById(id);
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(clientService.getClientById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ClientEntity> saveClient(@RequestBody ClientDTO clientDTO){
-        ClientEntity client = clientService.save(clientDTO.transformaParaObjeto());
-        return ResponseEntity.ok(client);
+    public ResponseEntity<ClientDTO> saveClient(@RequestBody ClientDTO clientDTO){
+        return ResponseEntity.ok().body(clientService.save(clientDTO));
     }
 
     @DeleteMapping(path ="/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable("id") Long id){
-        return clientService.deleteClient(id);
+    public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id){
+         clientService.delete(id);
+         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(value="/{id}")
-    public ResponseEntity updateClient(@PathVariable("id") long id, @RequestBody ClientEntity clientEntity){
-        return clientService.updateClient(id, clientEntity);
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable("id") Long id, @RequestBody ClientDTO clientDTO){
+        return ResponseEntity.ok().body(clientService.update(id, clientDTO));
     }
 
 }

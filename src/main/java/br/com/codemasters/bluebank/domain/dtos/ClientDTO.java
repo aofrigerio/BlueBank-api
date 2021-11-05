@@ -1,8 +1,15 @@
 package br.com.codemasters.bluebank.domain.dtos;
 
-import br.com.codemasters.bluebank.domain.entities.ClientEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientDTO {
+
+    private Long id;
 
     private String name;
 
@@ -18,7 +25,4 @@ public class ClientDTO {
 
     private String telephoneNumber;
 
-    public ClientEntity transformaParaObjeto(){
-        return new ClientEntity(name, adress, cpf, rg, sex, email, telephoneNumber);
-    }
 }

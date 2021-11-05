@@ -1,53 +1,66 @@
 package br.com.codemasters.bluebank.services;
 
+import br.com.codemasters.bluebank.domain.dtos.ClientDTO;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.domain.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
-    private final ClientRepository clientRepository;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository){
-        this.clientRepository = clientRepository;
+    private ClientRepository clientRepository;
+
+    public List<ClientDTO> getClients(){
+        return clientRepository.findAll().stream().map(this::ClientEntityToDto).collect(Collectors.toList());
     }
 
-    public ClientEntity save(ClientEntity clientEntity){
-        return clientRepository.save(clientEntity);
-    }
-    public ResponseEntity getClients(){
-        return ResponseEntity.ok(clientRepository.findAll());
+    public ClientDTO getClientById(Long id){
+        return ClientEntityToDto(clientRepository.findById(id).orElseThrow(null));
     }
 
-    public ResponseEntity getClientById(Long id){
-        return clientRepository.findById(id)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+    public ClientDTO save(ClientDTO clientDTO){
+        return ClientEntityToDto(clientRepository.save(ClientDtoToEntity(clientDTO)));
     }
 
-    public ResponseEntity<?> deleteClient(Long id){
-        return clientRepository.findById(id)
-                .map(record -> {
-                    clientRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
+    public void delete(Long id){
+        if(getClientById(id) != null)
+            clientRepository.deleteById(id);
     }
 
-    public ResponseEntity updateClient(Long id, ClientEntity clientEntity){
-        return clientRepository.findById(id)
-                .map(record -> {
-                    record.setName(clientEntity.getName());
-                    record.setAdress(clientEntity.getAdress());
-                    record.setCpf(clientEntity.getCpf());
-                    record.setRg(clientEntity.getRg());
-                    record.setSex(clientEntity.getSex());
-                    record.setEmail(clientEntity.getEmail());
-                    record.setTelephoneNumber(clientEntity.getTelephoneNumber());
-                    ClientEntity updated = clientRepository.save(record);
-                    return ResponseEntity.ok().body(updated);
-                }).orElse(ResponseEntity.notFound().build());
+    public ClientDTO update(Long id, ClientDTO clientDTO){
+          getClientById(id);
+          return ClientEntityToDto(clientRepository.save(ClientDtoToEntity(clientDTO)));
+
+    }
+
+    private ClientDTO ClientEntityToDto (ClientEntity clientEntity) {
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setId(clientEntity.getId());
+        clientDTO.setName(clientEntity.getName());
+        clientDTO.setAdress(clientEntity.getAdress());
+        clientDTO.setCpf(clientEntity.getCpf());
+        clientDTO.setRg(clientEntity.getRg());
+        clientDTO.setSex(clientEntity.getSex());
+        clientDTO.setEmail(clientEntity.getEmail());
+        clientDTO.setTelephoneNumber(clientEntity.getTelephoneNumber());
+        return clientDTO;
+    }
+
+    private ClientEntity ClientDtoToEntity (ClientDTO clientDTO) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setId(clientDTO.getId());
+        clientEntity.setName(clientDTO.getName());
+        clientEntity.setAdress(clientDTO.getAdress());
+        clientEntity.setCpf(clientDTO.getCpf());
+        clientEntity.setRg(clientDTO.getRg());
+        clientEntity.setSex(clientDTO.getSex());
+        clientEntity.setEmail(clientDTO.getEmail());
+        clientEntity.setTelephoneNumber(clientDTO.getTelephoneNumber());
+        return clientEntity;
     }
 }
