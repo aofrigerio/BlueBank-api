@@ -1,4 +1,4 @@
-package br.com.codemasters.bluebank.domain.repository;
+package br.com.codemasters.bluebank.domain.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

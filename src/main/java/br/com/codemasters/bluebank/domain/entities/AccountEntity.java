@@ -2,9 +2,6 @@ package br.com.codemasters.bluebank.domain.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class AccountEntity extends BaseEntityModel {
 
 	@Column(name="number", nullable = false)
-	private String number;
+	private long number;
 	
 	@Column(name="balance", nullable = false)
 	private double balance;
