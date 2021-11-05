@@ -1,5 +1,6 @@
 package br.com.codemasters.bluebank.domain.controllers;
 
+import br.com.codemasters.bluebank.domain.dtos.ClientDTO;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.services.ClientService;
 import lombok.AllArgsConstructor;
@@ -24,8 +25,9 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity saveClient(@RequestBody ClientEntity clientEntity){
-        return clientService.saveClient(clientEntity);
+    public ResponseEntity<ClientEntity> saveClient(@RequestBody ClientDTO clientDTO){
+        ClientEntity client = clientService.save(clientDTO.transformaParaObjeto());
+        return ResponseEntity.ok(client);
     }
 
     @DeleteMapping(path ="/{id}")

@@ -15,6 +15,9 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
+    public ClientEntity save(ClientEntity clientEntity){
+        return clientRepository.save(clientEntity);
+    }
     public ResponseEntity getClients(){
         return ResponseEntity.ok(clientRepository.findAll());
     }
@@ -23,10 +26,6 @@ public class ClientService {
         return clientRepository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    public ResponseEntity saveClient(ClientEntity clientEntity){
-        return ResponseEntity.ok(clientRepository.save(clientEntity));
     }
 
     public ResponseEntity<?> deleteClient(Long id){

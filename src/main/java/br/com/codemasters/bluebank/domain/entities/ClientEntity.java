@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ClientEntity extends BaseEntityModel {
 
     @Column(name = "name", nullable = false)
@@ -37,4 +35,13 @@ public class ClientEntity extends BaseEntityModel {
     @Column(name = "telephoneNumber", nullable = false)
     private String telephoneNumber;
 
+    public ClientEntity(String name, String adress, String cpf, String rg, String sex, String email, String telephoneNumber){
+        this.name = name;
+        this.adress = adress;
+        this.cpf = cpf;
+        this. rg = rg;
+        this.sex = sex;
+        this.email = email;
+        this.telephoneNumber = telephoneNumber;
+    }
 }
