@@ -1,7 +1,8 @@
 server:
   port: 8080
   servlet:
-    context-path: /bank
+    context-path: /bank    
+spring:  jpa:    defer-datasource-initialization: true
 ---
 spring:
   jpa:
@@ -25,15 +26,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: ${DB_database-plataform}
+    database-platform: ${DB_DATABASE_PLATAFORM}
   datasource:
-    url: jdbc:h2:mem:test
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASWORD}
     driverClassName: ${DB_CLASS_NAME}
   config:
     activate:
       on-profile: prod
-  h2:
-    console:
-      enabled: true
