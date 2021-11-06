@@ -28,9 +28,13 @@ class TransactionServiceTest {
 	@Mock
 	TransactionRepository transactionRepository;
 	
+	@Mock
+	AccountService accountService;
+		
+	
 	@BeforeEach
 	void setup(){
-		this.transactionService = new TransactionService(transactionRepository);
+		this.transactionService = new TransactionService(transactionRepository, accountService);
 	}
 
 	@Test
