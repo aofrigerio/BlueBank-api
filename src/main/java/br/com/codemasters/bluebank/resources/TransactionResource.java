@@ -23,19 +23,19 @@ public class TransactionResource {
 		this.transactionService = transactionService;
 	}
 	
-	@PostMapping
+	@PostMapping("/draft")
     public ResponseEntity<Void> draft(DraftDTO draftDTO){
 		transactionService.draft(draftDTO);
        return ResponseEntity.noContent().build();
     }
 	
-	@PostMapping
+	@PostMapping("/deposit")
 	public ResponseEntity<Void> deposit(DepositDTO depositDTO){
 		transactionService.deposit(depositDTO);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping
+	@PostMapping("/transfer")
 	public ResponseEntity<?> transfer(TransferDTO transferDTO){
 		transactionService.transfer(transferDTO);
 		return ResponseEntity.noContent().build();

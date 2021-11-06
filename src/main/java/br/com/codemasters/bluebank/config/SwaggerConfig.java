@@ -2,6 +2,8 @@ package br.com.codemasters.bluebank.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,16 +20,9 @@ public class SwaggerConfig {
     public Docket apiDoc(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                    .apis(RequestHandlerSelectors.basePackage("br.com.codemasters.bluebank"))
+                	.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                     .paths(PathSelectors.ant("/**"))
                     .build()
-//                .globalOperationParameters(Collections.singletonList(new ParameterBuilder()
-//                        .name("Authorization")
-//                        .description("Bearer token")
-//                        .modelRef(new ModelRef("string"))
-//                        .parameterType("header")
-//                        .required(true)
-//                        .build()))
                 .apiInfo(metaData());
     }
     private ApiInfo metaData(){
