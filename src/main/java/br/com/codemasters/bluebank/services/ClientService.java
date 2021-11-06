@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,7 +15,11 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
-
+    
+    public Optional<ClientEntity> findEntityById(Long id){
+        return clientRepository.findById(id);
+    }
+    
     public List<ClientDTO> getClients(){
         return clientRepository.findAll().stream().map(this::ClientEntityToDto).collect(Collectors.toList());
     }
