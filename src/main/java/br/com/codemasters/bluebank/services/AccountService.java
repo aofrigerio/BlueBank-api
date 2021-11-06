@@ -15,7 +15,8 @@ import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.domain.repository.AccountRepository;
 import br.com.codemasters.bluebank.domain.repository.AgencyRepository;
-import br.com.codemasters.bluebank.resources.exceptions.AgencyNotFoundException;
+import br.com.codemasters.bluebank.resources.exceptions.NotFoundException;
+import br.com.codemasters.bluebank.resources.exceptions.FundsNotAcceptException;
 
 @Service
 public class AccountService {
@@ -40,8 +41,12 @@ public class AccountService {
 	}
 	
 	public AccountDto findById(Long accountId) {
-		AccountEntity account = repository.findById(accountId).orElseThrow(null);
+		AccountEntity account = repository.findById(accountId).orElseThrow(NotFoundException::new);
 		return AccountEntityToDto(account);
+	}
+	
+	public AccountEntity findEntityById(Long accountId) {
+		return repository.findById(accountId).orElseThrow(NotFoundException::new);
 	}
 	
 	public AccountEntity update(Long id, AccountDto obj) {
@@ -54,6 +59,25 @@ public class AccountService {
 				.limit(obj.getLimit())
 				.agency(entityAgency)
 				.build());
+	}
+	
+	public void depositUpdate(Long accountId, Double value) {
+		AccountEntity entity = repository.findById(accountId).orElseThrow(NotFoundException::new);		
+		Double balance = entity.getBalance();
+		entity.setBalance(balance + value);
+		repository.save(entity);
+	}		
+	
+	public void draftUpdate(Long accountId, Double value) {
+		AccountEntity entity = repository.findById(accountId).orElseThrow(NotFoundException::new);		
+		Double balance = entity.getBalance();
+		
+		if(balance - value < 0) {
+			throw new FundsNotAcceptException();
+		}
+				
+		entity.setBalance(balance - value);
+		repository.save(entity);
 	}
 	
 	public void delete(Long id) {

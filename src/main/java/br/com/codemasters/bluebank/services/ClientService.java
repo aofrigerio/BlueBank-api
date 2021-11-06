@@ -37,10 +37,19 @@ public class ClientService {
             clientRepository.deleteById(id);
     }
 
-    public ClientDTO update(Long id, ClientDTO clientDTO){
-          getClientById(id);
-          return ClientEntityToDto(clientRepository.save(ClientDtoToEntity(clientDTO)));
-
+    public ClientDTO update(Long id, ClientDTO clientDTO){          
+    	  ClientEntity entity = clientRepository.findById(id).get();
+         	  
+    	  entity.setId(id);
+    	  entity.setName(clientDTO.getName());
+    	  entity.setAdress(clientDTO.getAdress());
+    	  entity.setCpf(clientDTO.getCpf());
+    	  entity.setRg(clientDTO.getRg());
+    	  entity.setSex(clientDTO.getSex());
+    	  entity.setEmail(clientDTO.getEmail());
+    	  entity.setTelephoneNumber(clientDTO.getTelephoneNumber());
+    	  
+          return ClientEntityToDto(clientRepository.save(entity));
     }
 
     private ClientDTO ClientEntityToDto (ClientEntity clientEntity) {

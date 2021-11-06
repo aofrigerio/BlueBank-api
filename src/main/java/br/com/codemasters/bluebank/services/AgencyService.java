@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import br.com.codemasters.bluebank.domain.dtos.AgencyDto;
 import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.domain.repository.AgencyRepository;
-import br.com.codemasters.bluebank.resources.exceptions.AgencyNotFoundException;
 
 @Service
 public class AgencyService {

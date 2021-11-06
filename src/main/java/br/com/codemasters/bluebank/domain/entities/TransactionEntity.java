@@ -20,7 +20,6 @@ public class TransactionEntity extends BaseEntityModel {
 	private AccountEntity account;
 	
 	@Column(name="value", nullable= false)
-	private Double value;
-	
+	private Double value;	
 
 }
