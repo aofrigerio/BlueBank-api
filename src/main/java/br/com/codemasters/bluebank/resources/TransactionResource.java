@@ -1,6 +1,11 @@
 package br.com.codemasters.bluebank.resources;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.codemasters.bluebank.domain.dtos.DepositDTO;
 import br.com.codemasters.bluebank.domain.dtos.DraftDTO;
+import br.com.codemasters.bluebank.domain.dtos.TransactionDTO;
 import br.com.codemasters.bluebank.domain.dtos.TransferDTO;
+import br.com.codemasters.bluebank.domain.entities.BaseEntityModel;
 import br.com.codemasters.bluebank.services.TransactionService;
 
 @RestController
@@ -23,6 +30,16 @@ public class TransactionResource {
 	public TransactionResource(TransactionService transactionService) {
 		this.transactionService = transactionService;
 	}
+	
+	@GetMapping
+	 public ResponseEntity<Page<TransactionDTO>> getAllTransaction(Pageable pageable){			
+       return ResponseEntity.ok(transactionService.getAllTransaction(pageable));
+    }
+	
+	@GetMapping("/{accountNumber}")
+	 public ResponseEntity<List<TransactionDTO>> getTransactionByAccount(@PathVariable String accountNumber){				
+       return ResponseEntity.ok(transactionService.getByAccountNumber(accountNumber));
+    }
 	
 	@PostMapping("/draft")
     public ResponseEntity<Void> draft(DraftDTO draftDTO){

@@ -9,6 +9,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import br.com.codemasters.bluebank.domain.dtos.DepositDTO;
 import br.com.codemasters.bluebank.domain.dtos.DraftDTO;
@@ -34,6 +39,9 @@ class TransactionServiceTest {
 	
 	@Mock
 	AccountService accountService;
+	
+	@Mock
+	Pageable pageable;
 		
 	
 	@BeforeEach
@@ -59,20 +67,40 @@ class TransactionServiceTest {
 		assertDoesNotThrow( () -> transactionService.transfer(transferDTO()));
 	}
 	
+	@Test
+	void getAllTransaction() {
+		when(transactionRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(listTransactionEntity()));
+		assertDoesNotThrow( () -> transactionService.getAllTransaction(pageable));
+	}
+	
+	@Test
+	void getByAccountNumber() {	
+		when(transactionRepository.findByAccountNumber(anyString())).thenReturn(listTransactionEntity());
+		assertDoesNotThrow( () -> transactionService.getByAccountNumber("15"));
+	}
+	
+	List<TransactionEntity> listTransactionEntity(){
+		return Collections.singletonList(buildTransactionEntity());
+	}
+	
 	DepositDTO depositDTO() {
 		return DepositDTO.builder().accounNumber("30").value(50D).build();
 	}
 	
-	private DraftDTO draftDTO() {
+	DraftDTO draftDTO() {
 		return DraftDTO.builder().accountNumber("15").value(150D).build();
 	}
 	
-	private TransferDTO transferDTO() {
+	TransferDTO transferDTO() {
 		return TransferDTO.builder().accountIdDestiny("500").accountIdOrigin("100").obs("ok").value(40D).build();
 	}
 		
 	AccountEntity accountEntity() {
 		return AccountEntity.builder().balance(500D).build();
+	}
+	
+	TransactionEntity buildTransactionEntity() {
+		return TransactionEntity.builder().account(accountEntity()).build();
 	}
 
 }

@@ -5,10 +5,14 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.codemasters.bluebank.domain.dtos.DepositDTO;
 import br.com.codemasters.bluebank.domain.dtos.DraftDTO;
+import br.com.codemasters.bluebank.domain.dtos.TransactionDTO;
 import br.com.codemasters.bluebank.domain.dtos.TransferDTO;
 import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.domain.entities.TransactionEntity;
@@ -52,6 +56,25 @@ public class TransactionService {
 		TransactionEntity entityOrigin = TransactionEntity.builder().account(accountOrigin).value(transferDTO.getValue()).obs(transferDTO.getObs()).typeTransaction(TypeTransactionEnum.TRANSFER).build();
 		TransactionEntity entityDestiny = TransactionEntity.builder().account(accountDestiny).value(transferDTO.getValue()).obs(transferDTO.getObs()).typeTransaction(TypeTransactionEnum.TRANSFER).build();
 		transactionRepository.saveAll(List.of(entityOrigin,entityDestiny));	
+	}
+
+	public Page<TransactionDTO> getAllTransaction(Pageable pageable) {
+		Page<TransactionEntity> pageEntity = transactionRepository.findAll(pageable); 		
+		List<TransactionDTO> listTransaction = pageEntity.getContent().stream().map(r -> transactionEntityToDTO(r)).toList();		 
+		return new PageImpl<>(listTransaction, pageable, pageEntity.getSize());
+	}
+
+	public List<TransactionDTO> getByAccountNumber(String accountNumber) {
+		List<TransactionEntity> listEntity = transactionRepository.findByAccountNumber(accountNumber);		
+		return listEntity.stream().map(r -> transactionEntityToDTO(r)).toList();
+	}
+	
+	private TransactionDTO transactionEntityToDTO(TransactionEntity transactionEntity) {
+		return TransactionDTO.builder()
+				.account(transactionEntity.getAccount())
+				.typeTransaction(transactionEntity.getTypeTransaction())
+				.obs(transactionEntity.getObs())
+				.build();
 	}
 	
 }
