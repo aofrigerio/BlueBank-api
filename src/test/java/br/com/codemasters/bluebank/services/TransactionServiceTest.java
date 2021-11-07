@@ -4,7 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,10 +19,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import br.com.codemasters.bluebank.domain.dtos.DepositDTO;
 import br.com.codemasters.bluebank.domain.dtos.DraftDTO;
 import br.com.codemasters.bluebank.domain.dtos.TransferDTO;
+import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.domain.entities.TransactionEntity;
 import br.com.codemasters.bluebank.domain.repository.TransactionRepository;
 
@@ -30,6 +39,9 @@ class TransactionServiceTest {
 	
 	@Mock
 	AccountService accountService;
+	
+	@Mock
+	Pageable pageable;
 		
 	
 	@BeforeEach
@@ -39,41 +51,56 @@ class TransactionServiceTest {
 
 	@Test
 	void deposit() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.deposit(any(DepositDTO.class)));
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.deposit(depositDTO()));
 	}
 	
 	@Test
 	void draft() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.deposit(any(DepositDTO.class)));
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.draft(draftDTO()));
 	}
 	
 	@Test
-	void draftEmpty() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.draft(any(DraftDTO.class)));
+	void trasfer() {
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.transfer(transferDTO()));
 	}
 	
 	@Test
-	void draftWithoutFunds() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.draft(any(DraftDTO.class)));
+	void getAllTransaction() {
+		when(transactionRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(listTransactionEntity()));
+		assertDoesNotThrow( () -> transactionService.getAllTransaction(pageable));
 	}
 	
 	@Test
-	void transferWithBalance() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.transfer(any(TransferDTO.class)));
+	void getByAccountNumber() {	
+		when(transactionRepository.findByAccountNumber(anyString())).thenReturn(listTransactionEntity());
+		assertDoesNotThrow( () -> transactionService.getByAccountNumber("15"));
 	}
 	
-	@Test
-	void transferWithoutBalanceInOriginAccount() {
+	List<TransactionEntity> listTransactionEntity(){
+		return Collections.singletonList(buildTransactionEntity());
+	}
+	
+	DepositDTO depositDTO() {
+		return DepositDTO.builder().accounNumber("30").value(50D).build();
+	}
+	
+	DraftDTO draftDTO() {
+		return DraftDTO.builder().accountNumber("15").value(150D).build();
+	}
+	
+	TransferDTO transferDTO() {
+		return TransferDTO.builder().accountIdDestiny("500").accountIdOrigin("100").obs("ok").value(40D).build();
+	}
 		
+	AccountEntity accountEntity() {
+		return AccountEntity.builder().balance(500D).build();
 	}
 	
-	TransactionEntity entityTransaction() {
-		return TransactionEntity.builder().account(null).value(5000D).build();
+	TransactionEntity buildTransactionEntity() {
+		return TransactionEntity.builder().account(accountEntity()).build();
 	}
 
 }

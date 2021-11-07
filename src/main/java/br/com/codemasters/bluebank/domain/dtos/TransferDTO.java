@@ -14,8 +14,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransferDTO {
 	
-	private Long accountIdOrigin;
-	private Long accountIdDestiny;
+	private String accountIdOrigin;
+	private String accountIdDestiny;
 	private Double value;
+	private String obs;
 
 }

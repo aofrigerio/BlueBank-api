@@ -18,9 +18,11 @@ import lombok.NoArgsConstructor;
 public class DraftDTO {
 	
 	@NotNull
-	private Long accountId;
+	private String accountNumber;
 	
 	@Size(min = 0)
 	private Double value;
+	
+	private String obs;
 
 }

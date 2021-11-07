@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.codemasters.bluebank.domain.dtos.AgencyDto;
+import br.com.codemasters.bluebank.domain.dtos.AgencyDTO;
 import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.services.AgencyService;
 
@@ -29,24 +29,24 @@ public class AgencyResource {
 	private AgencyService service;
 	
 	@GetMapping
-	public ResponseEntity<List<AgencyDto>> findAll(){
+	public ResponseEntity<List<AgencyDTO>> findAll(){
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
 	@GetMapping(value="/{id}")
-	public ResponseEntity<AgencyDto> findById(@PathVariable Long id){
+	public ResponseEntity<AgencyDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
 	@PostMapping
-	public ResponseEntity<AgencyEntity> create(@RequestBody AgencyDto agencyDto){
+	public ResponseEntity<AgencyEntity> create(@RequestBody AgencyDTO agencyDto){
 		AgencyEntity object = service.create(agencyDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(object.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value="/{id}")
-	public ResponseEntity<AgencyEntity> update(@PathVariable Long id, @RequestBody AgencyDto agencyDto){
+	public ResponseEntity<AgencyEntity> update(@PathVariable Long id, @RequestBody AgencyDTO agencyDto){
 		AgencyEntity object = service.update(id, agencyDto);
 		return ResponseEntity.ok().body(object);
 	}

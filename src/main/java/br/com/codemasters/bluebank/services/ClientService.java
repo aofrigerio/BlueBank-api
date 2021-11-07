@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,8 +21,8 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public ClientEntity findEntityById(Long id){
-        return clientRepository.findById(id).orElseThrow(NotFoundException::new);
+    public Optional<ClientEntity> findEntityById(Long id){
+        return clientRepository.findById(id);
     }
     
     public List<ClientDTO> getClients(){
