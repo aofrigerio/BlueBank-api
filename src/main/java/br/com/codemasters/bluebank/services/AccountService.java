@@ -35,8 +35,8 @@ public class AccountService {
 	}
 	
 	public AccountEntity create(AccountDto accountDto){
-	    AgencyEntity agencyEntity = agencyService.findEntitytById(accountDto.getAgency()).get();
-	    ClientEntity clientEntity = clientService.findEntityById(accountDto.getClient()).get();	    	
+	    AgencyEntity agencyEntity = agencyService.findEntitytById(accountDto.getAgency()).orElseThrow(NotFoundException::new);
+	    ClientEntity clientEntity = clientService.findEntityById(accountDto.getClient());
 		return repository.save(AccountEntity.builder().agency(agencyEntity).balance(accountDto.getBalance()).client(clientEntity).limit(accountDto.getLimit()).build());
 	}
 	
