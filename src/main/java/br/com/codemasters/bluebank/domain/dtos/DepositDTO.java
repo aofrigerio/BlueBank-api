@@ -19,9 +19,11 @@ import lombok.NoArgsConstructor;
 public class DepositDTO {
 	
 	@NotNull
-	private Long accountId;
+	private String accounNumber;
 	
 	@Size(min = 0)
 	private Double value;
+	
+	private String obs;
 
 }

@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.Assertions;
@@ -17,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.codemasters.bluebank.domain.dtos.DepositDTO;
 import br.com.codemasters.bluebank.domain.dtos.DraftDTO;
 import br.com.codemasters.bluebank.domain.dtos.TransferDTO;
+import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.domain.entities.TransactionEntity;
 import br.com.codemasters.bluebank.domain.repository.TransactionRepository;
 
@@ -39,41 +43,36 @@ class TransactionServiceTest {
 
 	@Test
 	void deposit() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.deposit(any(DepositDTO.class)));
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.deposit(depositDTO()));
 	}
 	
 	@Test
 	void draft() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.deposit(any(DepositDTO.class)));
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.draft(draftDTO()));
 	}
 	
 	@Test
-	void draftEmpty() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.draft(any(DraftDTO.class)));
+	void trasfer() {
+		when(accountService.findByAccount(anyString())).thenReturn(accountEntity());
+		assertDoesNotThrow( () -> transactionService.transfer(transferDTO()));
 	}
 	
-	@Test
-	void draftWithoutFunds() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.draft(any(DraftDTO.class)));
+	DepositDTO depositDTO() {
+		return DepositDTO.builder().accounNumber("30").value(50D).build();
 	}
 	
-	@Test
-	void transferWithBalance() {
-		when(transactionRepository.save(any())).thenReturn(entityTransaction());
-		assertDoesNotThrow( () -> transactionService.transfer(any(TransferDTO.class)));
+	private DraftDTO draftDTO() {
+		return DraftDTO.builder().accountNumber("15").value(150D).build();
 	}
 	
-	@Test
-	void transferWithoutBalanceInOriginAccount() {
+	private TransferDTO transferDTO() {
+		return TransferDTO.builder().accountIdDestiny("500").accountIdOrigin("100").obs("ok").value(40D).build();
+	}
 		
-	}
-	
-	TransactionEntity entityTransaction() {
-		return TransactionEntity.builder().account(null).value(5000D).build();
+	AccountEntity accountEntity() {
+		return AccountEntity.builder().balance(500D).build();
 	}
 
 }

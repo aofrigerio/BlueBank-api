@@ -1,5 +1,6 @@
 package br.com.codemasters.bluebank.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,13 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BalanceDTO {
 	
-	private Long id;
-	private String number;
-	private double balance;
-	private double limit;
-	private Long agency;
-	private Long client;
+	private ClientDTO client;
+	private AgencyDTO agency;
+	private AccountDTO account;	
 
 }
