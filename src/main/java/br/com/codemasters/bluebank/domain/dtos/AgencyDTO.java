@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgencyDto {
+public class AgencyDTO {
 
 	private Long id;
 	private Long code;

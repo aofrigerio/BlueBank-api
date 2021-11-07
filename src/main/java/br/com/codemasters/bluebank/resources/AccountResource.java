@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.codemasters.bluebank.domain.dtos.AccountDto;
+import br.com.codemasters.bluebank.domain.dtos.AccountDTO;
 import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.services.AccountService;
 
@@ -29,24 +29,24 @@ public class AccountResource {
 	private AccountService service;
 		
 	@GetMapping
-	public ResponseEntity<List<AccountDto>> findAll(){
+	public ResponseEntity<List<AccountDTO>> findAll(){
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
 	@GetMapping(value="/{id}")
-	public ResponseEntity<AccountDto> findById(@PathVariable Long id){
+	public ResponseEntity<AccountDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
 	@PostMapping
-	public ResponseEntity<AccountEntity> create(@RequestBody AccountDto accountDto){
+	public ResponseEntity<AccountEntity> create(@RequestBody AccountDTO accountDto){
 		AccountEntity object = service.create(accountDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(object.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value="/{id}")
-	public ResponseEntity<AccountEntity> update(@PathVariable Long id, @RequestBody AccountDto accountDto){
+	public ResponseEntity<AccountEntity> update(@PathVariable Long id, @RequestBody AccountDTO accountDto){
 		AccountEntity object = service.update(id, accountDto);
 		return ResponseEntity.ok().body(object);
 	}
