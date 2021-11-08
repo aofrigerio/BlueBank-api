@@ -2,10 +2,8 @@ package br.com.codemasters.bluebank.services;
 
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,6 @@ import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.domain.repository.AccountRepository;
-import br.com.codemasters.bluebank.domain.repository.AgencyRepository;
 import br.com.codemasters.bluebank.resources.exceptions.NotFoundException;
 import br.com.codemasters.bluebank.resources.exceptions.FundsNotAcceptException;
 
@@ -25,14 +22,21 @@ import br.com.codemasters.bluebank.resources.exceptions.FundsNotAcceptException;
 public class AccountService {
 	
 	@Autowired
-	private AccountRepository repository;
+	private final AccountRepository repository;
+	
 	
 	@Autowired
-	private AgencyService agencyService;
+	private final AgencyService agencyService;
 	
 	@Autowired
-	private ClientService clientService;
+	private final ClientService clientService;
 	
+	public AccountService(AccountRepository accountRepository, AgencyService agencyService, ClientService clientService) {
+		this.repository = accountRepository;
+		this.agencyService = agencyService;
+		this.clientService = clientService;
+	}
+
 	public List<AccountDTO> findAll(){
 		return repository.findAll().stream().map(this::accountEntityToDto).collect(Collectors.toList());
 	}
@@ -57,7 +61,7 @@ public class AccountService {
 	}
 	
 	public AccountEntity update(Long id, AccountDTO obj) {
-		AccountEntity entity = repository.findById(id).get();
+		//AccountEntity entity = repository.findById(id).get();
 		AgencyEntity entityAgency = agencyService.findEntitytById(obj.getAgency()).get();
 		
 		return repository.save(AccountEntity.builder()
@@ -114,6 +118,4 @@ public class AccountService {
 				.client(account.getClient().getId())
 				.build();	
 	}
-
-	
 }

@@ -19,6 +19,10 @@ public class AgencyService {
 	@Autowired
 	private AgencyRepository repository;
 	
+	public AgencyService(AgencyRepository agencyRepository) {
+		this.repository = agencyRepository;
+	}
+
 	public List<AgencyDTO> findAll(){
 		return repository.findAll().stream().map(this::agencyEntityToDto).collect(Collectors.toList());
 	}
