@@ -1,1 +1,42 @@
-
+server:
+  port: 8080
+  servlet:
+    context-path: /bank    
+spring:  jpa:    defer-datasource-initialization: true
+    context-path: /bank
+---
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  config:
+    activate:
+      on-profile: dev, default
+  h2:
+    console:
+      enabled: true           path: /h2-console
+---
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: ${DB_DATABASE_PLATAFORM}
+  datasource:
+    url: ${DB_URL}
+    database-platform: ${DB_database-plataform}
+    username: ${DB_USERNAME}
+    password: ${DB_PASWORD}
+    driverClassName: ${DB_CLASS_NAME}
+  config:
+    activate:
+      on-profile: prod
+  h2:
+    console:
+      enabled: true

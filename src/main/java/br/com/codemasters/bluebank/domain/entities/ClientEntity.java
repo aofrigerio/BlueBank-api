@@ -7,23 +7,33 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientEntity {
+public class ClientEntity extends BaseEntityModel {
 
-    @Id
-    private Long id;
-
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    private String telephoneNumber;
+    @Column(name = "adress", nullable = false)
+    private String adress;
 
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
+
+    @Column(name = "rg", nullable = false)
+    private String rg;
+
+    @Column(name = "sex", nullable = false)
+    private String sex;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "telephoneNumber", nullable = false)
+    private String telephoneNumber;
 
 }
