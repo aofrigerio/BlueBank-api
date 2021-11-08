@@ -1,14 +1,6 @@
 package br.com.codemasters.bluebank.services;
 
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.aspectj.weaver.ast.Not;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.com.codemasters.bluebank.domain.dtos.AccountDTO;
 import br.com.codemasters.bluebank.domain.dtos.AgencyDTO;
 import br.com.codemasters.bluebank.domain.dtos.BalanceDTO;
@@ -17,9 +9,13 @@ import br.com.codemasters.bluebank.domain.entities.AccountEntity;
 import br.com.codemasters.bluebank.domain.entities.AgencyEntity;
 import br.com.codemasters.bluebank.domain.entities.ClientEntity;
 import br.com.codemasters.bluebank.domain.repository.AccountRepository;
-import br.com.codemasters.bluebank.domain.repository.AgencyRepository;
-import br.com.codemasters.bluebank.resources.exceptions.NotFoundException;
 import br.com.codemasters.bluebank.resources.exceptions.FundsNotAcceptException;
+import br.com.codemasters.bluebank.resources.exceptions.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -36,10 +32,10 @@ public class AccountService {
 	public List<AccountDTO> findAll(){
 		return repository.findAll().stream().map(this::accountEntityToDto).collect(Collectors.toList());
 	}
-	
+
 	public AccountEntity create(AccountDTO accountDto){
 	    AgencyEntity agencyEntity = agencyService.findEntitytById(accountDto.getAgency()).orElseThrow(NotFoundException::new);
-	    ClientEntity clientEntity = clientService.findEntityById(accountDto.getClient()).orElseThrow(NotFoundException::new);	    	
+	    ClientEntity clientEntity = clientService.findEntityById(accountDto.getClient()).orElseThrow(NotFoundException::new);
 		return repository.save(AccountEntity.builder().agency(agencyEntity).balance(accountDto.getBalance()).client(clientEntity).limit(accountDto.getLimit()).build());
 	}
 	
@@ -114,6 +110,4 @@ public class AccountService {
 				.client(account.getClient().getId())
 				.build();	
 	}
-
-	
 }
