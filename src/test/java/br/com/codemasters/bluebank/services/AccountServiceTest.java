@@ -2,13 +2,9 @@ package br.com.codemasters.bluebank.services;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,8 +49,6 @@ class AccountServiceTest {
     @BeforeEach
     void setup(){
         this.accountService = new AccountService(accountRepository, agencyService, clientService);
-        /*this.agencyService = new AgencyService(agencyRepository);*/
-        //this.clientService = new ClientService(clientRepository);
     }
     
     @Test
@@ -119,9 +113,9 @@ class AccountServiceTest {
     @Test
     public void getBalance(){	
     	when(accountRepository.findByNumber(accountEntity().getNumber())).thenReturn(Optional.of(accountEntity()));
-    	when(agencyService.findEntitytById(agencyEntity().getId())).thenReturn(Optional.of(agencyEntity()));
+    	when(agencyService.findById(agencyEntity().getId())).thenReturn(agencyDTO());
     	when(clientService.getClientById(clientEntity().getId())).thenReturn(clientDTO());
-        assertDoesNotThrow( () -> accountService.create(accountDTO()));
+        assertDoesNotThrow( () -> accountService.getBalance(clientEntity().getId(),accountEntity().getNumber()));
     }
 
     @Test
@@ -130,21 +124,13 @@ class AccountServiceTest {
         assertDoesNotThrow( () -> accountService.delete(1L));
     }
     
-    AgencyDTO agencydTO() {
-		return AgencyDTO.builder().code(1368L).name("Agência Butiá-RS").build();
+    AgencyDTO agencyDTO() {
+		return AgencyDTO.builder().code(136L).name("Agência Butiá-RS").build();
 	}
     
     AgencyEntity agencyEntity() {
 		return AgencyEntity.builder().code(1368L).name("Agência Butiá-RS").build();
 	}
-    
-    ClientEntity clientEntity() {
-       return ClientEntity.builder().name("Teste 01").adress("Adress teste").cpf("00913857050").rg("1094379641").email("teste.gmail.com").sex("Feminino").telephoneNumber("99583489").build();
-    }
-    
-    ClientDTO clientDTO() {
-        return ClientDTO.builder().name("Teste 01").adress("Adress teste").cpf("00913857050").rg("1094379641").email("teste.gmail.com").sex("Feminino").telephoneNumber("99583489").build();
-     }
     
     AccountEntity accountEntity() {
 		return AccountEntity.builder().number("35691226-3").balance(1000D).limit(3000D).agency(agencyEntity()).client(clientEntity()).build();
@@ -158,8 +144,21 @@ class AccountServiceTest {
  		return AccountDTO.builder().number("39571-6").balance(2000D).limit(4000D).agency(agencyEntity().getId()).client(1l).build();
  	}
     
-    BalanceDTO balanceDTO() {
-    	return BalanceDTO.builder().client(clientDTO()).agency(agencydTO()).account(accountDTO()).build();
+    ClientDTO clientDTO() {
+        return ClientDTO.builder().name("Teste 01").adress("Adress teste").cpf("00913857050").rg("1094379641").email("teste.gmail.com").sex("Feminino").telephoneNumber("99583489").build();
+     }
+    
+    ClientEntity clientEntity() {
+        ClientEntity client = new ClientEntity();
+        client.setId(1L);
+        client.setName("Teste 01");
+        client.setAdress("Adress teste");
+        client.setCpf("00913857050");
+        client.setRg("1094379641");
+        client.setEmail("teste.gmail.com");
+        client.setSex("Feminino");
+        client.setTelephoneNumber("99583489");
+        return client;
     }
    
     

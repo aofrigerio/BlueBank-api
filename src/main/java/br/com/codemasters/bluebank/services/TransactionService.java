@@ -1,6 +1,7 @@
 package br.com.codemasters.bluebank.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -60,13 +61,13 @@ public class TransactionService {
 
 	public Page<TransactionDTO> getAllTransaction(Pageable pageable) {
 		Page<TransactionEntity> pageEntity = transactionRepository.findAll(pageable); 		
-		List<TransactionDTO> listTransaction = pageEntity.getContent().stream().map(r -> transactionEntityToDTO(r)).toList();		 
+		List<TransactionDTO> listTransaction = pageEntity.getContent().stream().map(r -> transactionEntityToDTO(r)).collect(Collectors.toList());
 		return new PageImpl<>(listTransaction, pageable, pageEntity.getSize());
 	}
 
 	public List<TransactionDTO> getByAccountNumber(String accountNumber) {
 		List<TransactionEntity> listEntity = transactionRepository.findByAccountNumber(accountNumber);		
-		return listEntity.stream().map(r -> transactionEntityToDTO(r)).toList();
+		return listEntity.stream().map(r -> transactionEntityToDTO(r)).collect(Collectors.toList());
 	}
 	
 	private TransactionDTO transactionEntityToDTO(TransactionEntity transactionEntity) {
