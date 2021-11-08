@@ -1,3 +1,11 @@
+### SOBRE
+Projeto de conclusão do curso IBM Blue Academy com parceria da Gama Academy.
+
+Integrantes: Alan Frigério, Marlon Rocha, Viviani Andrade
+
+https://www.gama.academy/
+
+
 # BlueBank-api
 
 O que foi utilizado:
