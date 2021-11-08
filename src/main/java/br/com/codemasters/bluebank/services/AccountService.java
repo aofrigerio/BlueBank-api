@@ -20,8 +20,6 @@ import br.com.codemasters.bluebank.resources.exceptions.NotFoundException;
 
 import br.com.codemasters.bluebank.resources.exceptions.FundsNotAcceptException;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
