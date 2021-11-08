@@ -21,7 +21,7 @@ public class DepositDTO {
 	@NotNull
 	private String accounNumber;
 	
-	@Size(min = 0)
+	@Min(value = 0)
 	private Double value;
 	
 	private String obs;
