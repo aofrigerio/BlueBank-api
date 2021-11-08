@@ -1,5 +1,6 @@
 package br.com.codemasters.bluebank.domain.dtos;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,7 +21,7 @@ public class DraftDTO {
 	@NotNull
 	private String accountNumber;
 	
-	@Size(min = 0)
+	@Min(value = 0)
 	private Double value;
 	
 	private String obs;

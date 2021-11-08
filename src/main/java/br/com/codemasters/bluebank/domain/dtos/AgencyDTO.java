@@ -1,7 +1,5 @@
 package br.com.codemasters.bluebank.domain.dtos;
 
-
-import br.com.codemasters.bluebank.domain.entities.AgencyEntity.AgencyEntityBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
